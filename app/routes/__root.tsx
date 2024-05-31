@@ -1,26 +1,26 @@
 import { createRootRoute } from '@tanstack/react-router'
 import { Link, Outlet, ScrollRestoration } from '@tanstack/react-router'
 import { Body, Head, Html, Meta, Scripts } from '@tanstack/start'
-import * as React from 'react'
+// import * as React from 'react'
+import { useState, lazy, useEffect, Suspense } from 'react'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo'
 import { ThemeProvider } from '@/components/theme-provider'
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
+  // useQuery,
+  // useMutation,
+  // useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { Suspense } from 'react'
 import { ModeToggle } from '~/components/mode-toggle'
 const TanStackRouterDevtools =
   process.env.NODE_ENV === 'production'
     ? () => null // Render nothing in production
-    : React.lazy(() =>
+    : lazy(() =>
         // Lazy load in development
         import('@tanstack/router-devtools').then((res) => ({
           default: res.TanStackRouterDevtools,
@@ -31,7 +31,7 @@ const TanStackRouterDevtools =
 
 const queryClient = new QueryClient()
 
-const ReactQueryDevtoolsProduction = React.lazy(() =>
+const ReactQueryDevtoolsProduction = lazy(() =>
   import('@tanstack/react-query-devtools/build/modern/production.js').then(
     (d) => ({
       default: d.ReactQueryDevtools,
@@ -88,9 +88,9 @@ export const Route = createRootRoute({
 })
 
 function RootComponent() {
-  const [showDevtools, setShowDevtools] = React.useState(false)
+  const [showDevtools, setShowDevtools] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     // @ts-expect-error
     window.toggleDevtools = () => setShowDevtools((old) => !old)
   }, [])
@@ -102,9 +102,9 @@ function RootComponent() {
         </RootDocument>
         <ReactQueryDevtools initialIsOpen />
         {showDevtools && (
-          <React.Suspense fallback={null}>
+          <Suspense fallback={null}>
             <ReactQueryDevtoolsProduction />
-          </React.Suspense>
+          </Suspense>
         )}{' '}
       </QueryClientProvider>
     </ThemeProvider>
