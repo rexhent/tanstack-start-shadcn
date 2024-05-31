@@ -1,6 +1,6 @@
 import { Await, createFileRoute, defer } from '@tanstack/react-router'
-import { Suspense, useState } from 'react'
-import { Button } from '~/components/ui/button'
+import { Suspense } from 'react'
+import Counter from '~/components/Counter'
 
 export const Route = createFileRoute('/deferred')({
   loader: () => {
@@ -14,7 +14,6 @@ export const Route = createFileRoute('/deferred')({
 })
 
 function Deferred() {
-  const [count, setCount] = useState(0)
   const { deferredStuff } = Route.useLoaderData()
 
   return (
@@ -22,10 +21,8 @@ function Deferred() {
       <Suspense fallback="Loading...">
         <Await promise={deferredStuff} children={(data) => <h3>{data}</h3>} />
       </Suspense>
-      <div>Count: {count}</div>
-      <div>
-        <Button onClick={() => setCount(count + 1)}>Increment</Button>
-      </div>
+
+      <Counter />
     </div>
   )
 }
