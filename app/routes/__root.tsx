@@ -119,49 +119,58 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </Head>
       <Body>
         <div className="flex flex-col">
-          <div className="p-2 flex gap-2  items-center text-lg">
-            <Link
-              to="/"
-              activeProps={{
-                className: 'font-bold',
-              }}
-              activeOptions={{ exact: true }}
-            >
-              Home
-            </Link>
-            <Link
-              to={'/posts'}
-              activeProps={{
-                className: 'font-bold',
-              }}
-            >
-              Posts
-            </Link>
-            <Link
-              to="/layout-a"
-              activeProps={{
-                className: 'font-bold',
-              }}
-            >
-              Layout
-            </Link>
-            <Link
-              to="/deferred"
-              activeProps={{
-                className: 'font-bold',
-              }}
-            >
-              Deferred
-            </Link>
-            <Link
-              // @ts-expect-error
-              to="/this-route-does-not-exist"
-              activeProps={{
-                className: 'font-bold',
-              }}
-            >
-              This Route Does Not Exist
-            </Link>
+          <div className="flex justify-between">
+            <div className="p-2 flex gap-2  items-center text-lg">
+              <Link
+                to="/"
+                activeProps={{
+                  className: 'font-bold',
+                }}
+                activeOptions={{ exact: true }}
+              >
+                Home
+              </Link>
+              <Link
+                to={'/posts'}
+                activeProps={{
+                  className: 'font-bold',
+                }}
+              >
+                Posts
+              </Link>
+              <Link
+                to="/layout-a"
+                activeProps={{
+                  className: 'font-bold',
+                }}
+              >
+                Layout
+              </Link>
+              <Link
+                to="/deferred"
+                activeProps={{
+                  className: 'font-bold',
+                }}
+              >
+                Deferred
+              </Link>
+              <Link
+                // @ts-expect-error
+                to="/this-route-does-not-exist"
+                activeProps={{
+                  className: 'font-bold',
+                }}
+              >
+                This Route Does Not Exist
+              </Link>
+              <a
+                href="https://github.com/rexhent/tanstack-start-shadcn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Github
+              </a>
+            </div>
             <ModeToggle />
           </div>
           <hr />
