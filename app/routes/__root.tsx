@@ -6,6 +6,7 @@ import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo'
+import { ThemeProvider } from '@/components/theme-provider'
 import {
   useQuery,
   useMutation,
@@ -15,6 +16,7 @@ import {
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Suspense } from 'react'
+import { ModeToggle } from '~/components/mode-toggle'
 const TanStackRouterDevtools =
   process.env.NODE_ENV === 'production'
     ? () => null // Render nothing in production
@@ -93,17 +95,19 @@ function RootComponent() {
     window.toggleDevtools = () => setShowDevtools((old) => !old)
   }, [])
   return (
-    <QueryClientProvider client={queryClient}>
-      <RootDocument>
-        <Outlet />
-      </RootDocument>
-      <ReactQueryDevtools initialIsOpen />
-      {showDevtools && (
-        <React.Suspense fallback={null}>
-          <ReactQueryDevtoolsProduction />
-        </React.Suspense>
-      )}{' '}
-    </QueryClientProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <QueryClientProvider client={queryClient}>
+        <RootDocument>
+          <Outlet />
+        </RootDocument>
+        <ReactQueryDevtools initialIsOpen />
+        {showDevtools && (
+          <React.Suspense fallback={null}>
+            <ReactQueryDevtoolsProduction />
+          </React.Suspense>
+        )}{' '}
+      </QueryClientProvider>
+    </ThemeProvider>
   )
 }
 
@@ -114,51 +118,54 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Meta />
       </Head>
       <Body>
-        <div className="p-2 flex gap-2 text-lg">
-          <Link
-            to="/"
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true }}
-          >
-            Home
-          </Link>{' '}
-          <Link
-            to={'/posts'}
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            Posts
-          </Link>
-          <Link
-            to="/layout-a"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            Layout
-          </Link>
-          <Link
-            to="/deferred"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            Deferred
-          </Link>
-          <Link
-            // @ts-expect-error
-            to="/this-route-does-not-exist"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            This Route Does Not Exist
-          </Link>
+        <div className="flex flex-col">
+          <div className="p-2 flex gap-2  items-center text-lg">
+            <Link
+              to="/"
+              activeProps={{
+                className: 'font-bold',
+              }}
+              activeOptions={{ exact: true }}
+            >
+              Home
+            </Link>
+            <Link
+              to={'/posts'}
+              activeProps={{
+                className: 'font-bold',
+              }}
+            >
+              Posts
+            </Link>
+            <Link
+              to="/layout-a"
+              activeProps={{
+                className: 'font-bold',
+              }}
+            >
+              Layout
+            </Link>
+            <Link
+              to="/deferred"
+              activeProps={{
+                className: 'font-bold',
+              }}
+            >
+              Deferred
+            </Link>
+            <Link
+              // @ts-expect-error
+              to="/this-route-does-not-exist"
+              activeProps={{
+                className: 'font-bold',
+              }}
+            >
+              This Route Does Not Exist
+            </Link>
+            <ModeToggle />
+          </div>
+          <hr />
         </div>
-        <hr />
         {children}
         <ScrollRestoration />
         <Suspense>
